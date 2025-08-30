@@ -4,7 +4,6 @@ import { ROUTE_PATH, isParentRoute, routePaths, routes } from "@/routes";
 
 const ItemPage = ({ params: { item } }: { params: { item: string[] } }) => {
   const path = ["", ...item].join("/") as ROUTE_PATH;
-  console.log(path);
 
   const route = routes[path];
   if (!routePaths.includes(path) || isParentRoute(route) || !route.children)
