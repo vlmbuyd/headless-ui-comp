@@ -1,5 +1,3 @@
-# [ UI요소 만들기 강의 코드 - 보일러플레이트 ]
-
 ## 디렉토리 구조
 
 - `app`: app 전반에 대한 기본 view 제공
@@ -27,7 +25,7 @@ npm install
 # or
 pnpm install
 # or
-yarn
+yarn install
 ```
 
 - 개발 서버를 실행합니다.
@@ -39,5 +37,3 @@ pnpm run dev
 # or
 yarn dev
 ```
-
-- 브라우저에서 [http://localhost:3000](http://localhost:3000)에 접속하여 결과를 확인합니다.
