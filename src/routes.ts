@@ -1,3 +1,5 @@
+import Modal1 from "./components/modal/1_r";
+
 export const routePaths = [
   "/",
   "/accordion",
@@ -11,6 +13,7 @@ export const routePaths = [
   "/scrollSpy",
   "/snackbar",
   "/modal",
+  "/modal/1_r",
   "/popover",
   "/imageSlide",
   "/carousel",
@@ -122,9 +125,15 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
   },
   "/modal": {
     key: "/modal",
-    link: "/modal",
+    link: "/modal/1_r",
     name: "11. 모달",
-    children: null,
+    children: ["/modal/1_r"],
+  },
+  "/modal/1_r": {
+    key: "/modal/1_r",
+    link: "/modal/1_r",
+    name: "R - Context",
+    children: Modal1,
   },
   "/popover": {
     key: "/popover",
