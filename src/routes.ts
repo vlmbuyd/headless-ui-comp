@@ -1,4 +1,4 @@
-import Modal1 from "./components/modal/1_r";
+import Modal from "./components/modal/context";
 
 export const routePaths = [
   "/",
@@ -13,7 +13,7 @@ export const routePaths = [
   "/scrollSpy",
   "/snackbar",
   "/modal",
-  "/modal/1_r",
+  "/modal/context",
   "/popover",
   "/imageSlide",
   "/carousel",
@@ -125,15 +125,15 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
   },
   "/modal": {
     key: "/modal",
-    link: "/modal/1_r",
+    link: "/modal/context",
     name: "11. 모달",
-    children: ["/modal/1_r"],
+    children: ["/modal/context"],
   },
-  "/modal/1_r": {
-    key: "/modal/1_r",
-    link: "/modal/1_r",
+  "/modal/context": {
+    key: "/modal/context",
+    link: "/modal/context",
     name: "R - Context",
-    children: Modal1,
+    children: Modal,
   },
   "/popover": {
     key: "/popover",
