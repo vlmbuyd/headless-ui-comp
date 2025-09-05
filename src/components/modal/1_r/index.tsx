@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ModalContextProvider, useSetModals } from "./modalContext";
-import { AlertModal, ConfirmModal } from "./modalComponents";
+import { AlertModal, ConfirmModal, FormModal } from "./modalComponents";
 
 const AlertTrigger = ({ id, text }: { id: string; text: string }) => {
   const { openModal } = useSetModals();
@@ -29,6 +29,7 @@ const ConfirmTrigger = ({
       id,
       <ConfirmModal
         id={id}
+        confirmed={confirmed}
         onConfirm={() => {
           setConfirmed(true);
           closeThis();
@@ -51,7 +52,23 @@ const ConfirmTrigger = ({
   );
 };
 
-const FormTrigger = ({ id }: { id: string }) => {};
+const FormTrigger = ({ id }: { id: string }) => {
+  const { openModal } = useSetModals();
+  const openFormModal = () => {
+    openModal(
+      id,
+      <FormModal id={id} onSubmit={(d) => console.log(d)}>
+        <input name="name" placeholder="상품명" />
+        <input name="price" type="number" placeholder="가격" />
+        <label>
+          <input name="soldOut" type="checkbox" /> 품절
+        </label>
+      </FormModal>
+    );
+  };
+
+  return <button onClick={openFormModal}>폼모달 열기</button>;
+};
 
 const Modal1 = () => {
   return (
@@ -129,7 +146,8 @@ const Modal1 = () => {
       <p>____place____holder____</p>
       <p>____place____holder____</p>
       <p>____place____holder____</p>
-      {/* <FormTrigger id="7" /> */}
+
+      <FormTrigger id="7" />
     </ModalContextProvider>
   );
 };

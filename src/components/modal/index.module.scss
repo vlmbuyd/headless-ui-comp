@@ -10,7 +10,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.3);
+
+  // 중첩 모달일 경우 마지막 모달만 dimmed 처리
+  :global(#modalRoot) & {
+    &:last-child {
+      backdrop-filter: blur(2px);
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
 
   .inner {
     flex: 1;

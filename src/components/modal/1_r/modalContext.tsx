@@ -6,6 +6,7 @@ import {
   SetStateAction,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -18,6 +19,11 @@ const ModalDispatchContext = createContext<ModalDispatchState>(() => {});
 export const ModalContextProvider = ({ children }: { children: ReactNode }) => {
   const [modals, setModals] = useState<ModalState>(new Map());
   const modalValues = Array.from(modals.values());
+
+  // 모달 마운트 시 스크롤 방지
+  useEffect(() => {
+    document.body.classList.toggle("no-scroll", modals.size > 0);
+  }, [modals]);
 
   return (
     <ModalContext.Provider value={modals}>
