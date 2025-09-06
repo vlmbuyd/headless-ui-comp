@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { ModalContextProvider, useSetModals } from "./modalContext";
 import { AlertModal, ConfirmModal, FormModal } from "./modalComponents";
+import useModal from "./useModal";
+import ModalRoot from "./modalRoot";
 
 const AlertTrigger = ({ id, text }: { id: string; text: string }) => {
-  const { openModal } = useSetModals();
+  const { opened, openModal, closeModal } = useModal();
 
-  const openAlertModal = () => {
-    openModal(id, <AlertModal id={id} text={text} />);
-  };
-
-  return <button onClick={openAlertModal}>Alert 띄우기</button>;
+  return (
+    <>
+      <button onClick={openModal}>얼럿 띄우기</button>
+      <AlertModal opened={opened} text={text} hide={closeModal} />
+    </>
+  );
 };
 
 const ConfirmTrigger = ({
@@ -19,63 +21,62 @@ const ConfirmTrigger = ({
   id: string;
   children: React.ReactNode;
 }) => {
-  const { openModal, closeModal } = useSetModals();
+  const { opened, openModal, closeModal } = useModal();
   const [confirmed, setConfirmed] = useState<boolean | null>(null);
 
-  const closeThis = () => closeModal(id);
-
-  const openConfirmModal = () => {
-    openModal(
-      id,
+  return (
+    <>
+      <button onClick={openModal}>
+        확인모달열기 {confirmed ? "확인됨" : "확인안됨"}
+      </button>
       <ConfirmModal
-        id={id}
+        opened={opened}
         confirmed={confirmed}
         onConfirm={() => {
           setConfirmed(true);
-          closeThis();
+          closeModal();
         }}
         onCancel={() => {
           setConfirmed(false);
-          closeThis();
+          closeModal();
         }}
-        hide={closeThis}
+        hide={closeModal}
       >
         {children}
       </ConfirmModal>
-    );
-  };
-
-  return (
-    <button onClick={openConfirmModal}>
-      확인 모달 열기 {confirmed ? "확인됨" : "확인 안됨"}
-    </button>
+    </>
   );
 };
 
 const FormTrigger = ({ id }: { id: string }) => {
-  const { openModal } = useSetModals();
-  const openFormModal = () => {
-    openModal(
-      id,
-      <FormModal id={id} onSubmit={(d) => console.log(d)}>
+  const { opened, openModal, closeModal } = useModal();
+
+  return (
+    <>
+      <button onClick={openModal}>폼모달 열기</button>
+      <FormModal
+        id={id}
+        opened={opened}
+        hide={closeModal}
+        onSubmit={(d) => {
+          console.log(Array.from(d));
+        }}
+      >
         <input name="name" placeholder="상품명" />
         <input name="price" type="number" placeholder="가격" />
         <label>
           <input name="soldOut" type="checkbox" /> 품절
         </label>
       </FormModal>
-    );
-  };
-
-  return <button onClick={openFormModal}>폼모달 열기</button>;
+    </>
+  );
 };
-
-const Modal1 = () => {
+const Modal = () => {
   return (
-    <ModalContextProvider>
+    <>
       <h2>모달</h2>
       <h3>
-        #1. React<sub>context</sub>
+        Modal #2<sub>createPortal</sub>
       </h3>
       <p>____place____holder____</p>
       <p>____place____holder____</p>
@@ -148,8 +149,10 @@ const Modal1 = () => {
       <p>____place____holder____</p>
 
       <FormTrigger id="7" />
-    </ModalContextProvider>
+
+      <ModalRoot />
+    </>
   );
 };
 
-export default Modal1;
+export default Modal;

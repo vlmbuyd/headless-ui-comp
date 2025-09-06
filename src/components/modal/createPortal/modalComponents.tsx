@@ -1,32 +1,36 @@
 import { ReactNode, SyntheticEvent } from "react";
 import Modal from "./modal";
-import { useSetModals } from "./modalContext";
 
-export const AlertModal = ({ id, text }: { id: string; text: string }) => {
-  const { closeModal } = useSetModals();
-  const closeThis = () => closeModal(id);
-
+export const AlertModal = ({
+  opened,
+  hide,
+  text,
+}: {
+  opened: boolean;
+  hide: () => void;
+  text: string;
+}) => {
   return (
-    <Modal id={id}>
+    <Modal opened={opened} hide={hide}>
       <Modal.Content>
         <p>{text}</p>
       </Modal.Content>
       <Modal.Footer>
-        <button onClick={closeThis}>확인</button>
+        <button onClick={hide}>확인</button>
       </Modal.Footer>
     </Modal>
   );
 };
 
 export const ConfirmModal = ({
-  id,
+  opened,
   children,
   confirmed,
   onConfirm,
   onCancel,
   hide,
 }: {
-  id: string;
+  opened: boolean;
   children: ReactNode;
   confirmed: boolean | null;
   onConfirm: () => void;
@@ -34,7 +38,7 @@ export const ConfirmModal = ({
   hide: () => void;
 }) => {
   return (
-    <Modal id={id} hideOnClickOutside>
+    <Modal opened={opened} hide={hide} hideOnClickOutside>
       <Modal.Header
         title={confirmed ? "확인된 컨펌" : "확인안된 컨펌"}
         hide={hide}
@@ -50,41 +54,40 @@ export const ConfirmModal = ({
 
 export const FormModal = ({
   id,
+  opened,
   children,
   onSubmit,
   onCancel,
+  hide,
 }: {
   id: string;
   children: ReactNode;
+  opened: boolean;
   onSubmit?: (formData: FormData) => void;
   onCancel?: () => void;
+  hide: () => void;
 }) => {
   const formId = `form_${id}`;
-  const { closeModal } = useSetModals();
-  const closeThis = () => closeModal(id);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const data = new FormData(e.target as HTMLFormElement);
     onSubmit?.(data);
-    closeThis();
+    hide();
   };
-
   const handleCancel = () => {
     onCancel?.();
-    closeThis();
+    hide();
   };
 
   return (
-    <Modal id={id}>
-      <Modal.Header hide={closeThis} />
-
+    <Modal opened={opened} hide={hide}>
+      <Modal.Header hide={hide} />
       <Modal.Content>
         <form id={formId} onSubmit={handleSubmit}>
           {children}
         </form>
       </Modal.Content>
-
       <Modal.Footer>
         <button type="submit" form={formId}>
           확인

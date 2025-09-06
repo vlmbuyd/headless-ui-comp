@@ -1,30 +1,33 @@
 import { ReactNode, SyntheticEvent } from "react";
 import cx from "../cx";
-import { useSetModals } from "./modalContext";
+import { createPortal } from "react-dom";
 
 const Modal = ({
-  id,
   hideOnClickOutside = false,
   children,
+  opened,
+  hide,
 }: {
-  id: string;
   hideOnClickOutside?: boolean;
   children: ReactNode;
+  opened: boolean;
+  hide: () => void;
 }) => {
-  const { closeModal } = useSetModals();
-  const closeThis = () => closeModal(id);
   const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
 
-  return (
-    <div
-      className={cx("Modal")}
-      onClick={hideOnClickOutside ? closeThis : undefined}
-    >
-      <div className={cx("inner")} onClick={stopPropagation}>
-        {children}
-      </div>
-    </div>
-  );
+  return opened
+    ? createPortal(
+        <div
+          className={cx("Modal")}
+          onClick={hideOnClickOutside ? hide : undefined}
+        >
+          <div className={cx("inner")} onClick={stopPropagation}>
+            {children}
+          </div>
+        </div>,
+        document.querySelector("#modalRoot")!
+      )
+    : null;
 };
 
 const ModalHeader = ({

@@ -75,7 +75,7 @@ const Modal = () => {
     <ModalContextProvider>
       <h2>모달</h2>
       <h3>
-        #1. React<sub>context</sub>
+        Modal #1<sub>Context</sub>
       </h3>
       <p>____place____holder____</p>
       <p>____place____holder____</p>
