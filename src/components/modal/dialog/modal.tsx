@@ -1,33 +1,37 @@
-import { ReactNode, SyntheticEvent } from "react";
+import { ReactNode, RefObject, SyntheticEvent, useCallback } from "react";
 import cx from "../cx";
-import { createPortal } from "react-dom";
 
 const Modal = ({
+  modalRef,
   hideOnClickOutside = false,
   children,
-  opened,
   hide,
+  className,
 }: {
+  modalRef: RefObject<HTMLDialogElement>;
   hideOnClickOutside?: boolean;
   children: ReactNode;
-  opened: boolean;
   hide: () => void;
+  className?: string;
 }) => {
-  const stopPropagation = (e: SyntheticEvent) => e.stopPropagation();
+  const handleClick = useCallback(
+    (e: SyntheticEvent) => {
+      if (hideOnClickOutside && modalRef.current === e.target) {
+        hide();
+      }
+    },
+    [hideOnClickOutside]
+  );
 
-  return opened
-    ? createPortal(
-        <div
-          className={cx("Modal")}
-          onClick={hideOnClickOutside ? hide : undefined}
-        >
-          <div className={cx("inner")} onClick={stopPropagation}>
-            {children}
-          </div>
-        </div>,
-        document.querySelector("#modaloot")!
-      )
-    : null;
+  return (
+    <dialog
+      className={cx("Dialog", className)}
+      ref={modalRef}
+      onClick={handleClick}
+    >
+      {children}
+    </dialog>
+  );
 };
 
 const ModalHeader = ({

@@ -1,4 +1,6 @@
-import Modal from "./components/modal/context";
+import ModalContext from "./components/modal/context";
+import ModalCreatePortal from "./components/modal/createPortal";
+import ModalDialog from "./components/modal/dialog";
 
 export const routePaths = [
   "/",
@@ -14,6 +16,8 @@ export const routePaths = [
   "/snackbar",
   "/modal",
   "/modal/context",
+  "/modal/createPortal",
+  "/modal/dialog",
   "/popover",
   "/imageSlide",
   "/carousel",
@@ -127,13 +131,25 @@ export const routes: Record<ROUTE_PATH, ROUTE> = {
     key: "/modal",
     link: "/modal/context",
     name: "11. 모달",
-    children: ["/modal/context"],
+    children: ["/modal/context", "/modal/createPortal", "/modal/dialog"],
   },
   "/modal/context": {
     key: "/modal/context",
     link: "/modal/context",
-    name: "R - Context",
-    children: Modal,
+    name: "Context",
+    children: ModalContext,
+  },
+  "/modal/createPortal": {
+    key: "/modal/createPortal",
+    link: "/modal/createPortal",
+    name: "createPortal",
+    children: ModalCreatePortal,
+  },
+  "/modal/dialog": {
+    key: "/modal/dialog",
+    link: "/modal/dialog",
+    name: "HTML Dialog",
+    children: ModalDialog,
   },
   "/popover": {
     key: "/popover",
