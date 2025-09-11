@@ -73,9 +73,7 @@ const Gnb = () => {
   return (
     <aside>
       <h1>
-        <Link href="/">
-          UI 요소 모음 <sub>FE재남</sub>
-        </Link>
+        <Link href="/">UI Element</Link>
       </h1>
       <ul className="mainRoutes">
         {gnbRootList.map((r) => (
